@@ -8,11 +8,12 @@ import Users from './components/Users';
 import Workouts from './components/Workouts';
 import OctofitLogo from './components/OctofitLogo';
 
+
 function App() {
   return (
     <Router>
       <div className="container mt-4">
-        <nav className="navbar navbar-expand-lg navbar-dark bg-primary rounded mb-4">
+        <nav className="navbar navbar-expand-lg navbar-dark rounded mb-4">
           <div className="container-fluid">
             <div className="d-flex align-items-center">
               <OctofitLogo />
