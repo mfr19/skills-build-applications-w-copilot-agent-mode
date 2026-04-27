@@ -8,7 +8,6 @@ import Users from './components/Users';
 import Workouts from './components/Workouts';
 import OctofitLogo from './components/OctofitLogo';
 
-
 function App() {
   return (
     <Router>
@@ -24,15 +23,16 @@ function App() {
             </button>
             <div className="collapse navbar-collapse" id="navbarNav">
               <ul className="navbar-nav me-auto mb-2 mb-lg-0">
-                <li className="nav-item"><NavLink className="nav-link" to="/activities">Activities</NavLink></li>
-                <li className="nav-item"><NavLink className="nav-link" to="/leaderboard">Leaderboard</NavLink></li>
-                <li className="nav-item"><NavLink className="nav-link" to="/teams">Teams</NavLink></li>
-                <li className="nav-item"><NavLink className="nav-link" to="/users">Users</NavLink></li>
-                <li className="nav-item"><NavLink className="nav-link" to="/workouts">Workouts</NavLink></li>
+                <li className="nav-item"><NavLink className={({ isActive }) => `nav-link${isActive ? ' active' : ''}`} to="/activities">Activities</NavLink></li>
+                <li className="nav-item"><NavLink className={({ isActive }) => `nav-link${isActive ? ' active' : ''}`} to="/leaderboard">Leaderboard</NavLink></li>
+                <li className="nav-item"><NavLink className={({ isActive }) => `nav-link${isActive ? ' active' : ''}`} to="/teams">Teams</NavLink></li>
+                <li className="nav-item"><NavLink className={({ isActive }) => `nav-link${isActive ? ' active' : ''}`} to="/users">Users</NavLink></li>
+                <li className="nav-item"><NavLink className={({ isActive }) => `nav-link${isActive ? ' active' : ''}`} to="/workouts">Workouts</NavLink></li>
               </ul>
             </div>
           </div>
         </nav>
+
         <div className="card shadow-sm p-4">
           <Routes>
             <Route path="/activities" element={<Activities />} />
@@ -40,7 +40,16 @@ function App() {
             <Route path="/teams" element={<Teams />} />
             <Route path="/users" element={<Users />} />
             <Route path="/workouts" element={<Workouts />} />
-            <Route path="/" element={<h2 className="display-5 text-center">Welcome to <span className="text-primary">Octofit Tracker</span>!</h2>} />
+            <Route
+              path="/"
+              element={
+                <div className="text-center py-5">
+                  <h2 className="display-5">Welcome to Octofit Tracker</h2>
+                  <p className="lead text-muted">Select a section from the navigation menu to explore your fitness data.</p>
+                  <Link className="btn btn-primary btn-lg" to="/activities">View Activities</Link>
+                </div>
+              }
+            />
           </Routes>
         </div>
       </div>
