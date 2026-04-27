@@ -13,13 +13,13 @@ class TeamAdmin(admin.ModelAdmin):
 
 @admin.register(Activity)
 class ActivityAdmin(admin.ModelAdmin):
-    list_display = ('user', 'activity_type', 'duration')
-    search_fields = ('user__username', 'activity_type')
+    list_display = ('user_name', 'activity_type', 'duration')
+    search_fields = ('user_name', 'activity_type')
 
 @admin.register(Leaderboard)
 class LeaderboardAdmin(admin.ModelAdmin):
-    list_display = ('user', 'points')
-    search_fields = ('user__username',)
+    list_display = ('user_name', 'points')
+    search_fields = ('user_name',)
 
 @admin.register(Workout)
 class WorkoutAdmin(admin.ModelAdmin):

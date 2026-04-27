@@ -9,40 +9,47 @@ class Command(BaseCommand):
     def handle(self, *args, **kwargs):
         self.stdout.write('populate_db command started')
         User = get_user_model()
-        # Clear existing data
-        Activity.objects.all().delete()
-        Leaderboard.objects.all().delete()
-        Workout.objects.all().delete()
-        Team.objects.all().delete()
-        User.objects.all().delete()
-
+        
         try:
-            # Create teams
+            # Clear existing data - simpler approach
+            self.stdout.write('Clearing existing data...')
+            Activity.objects.all().delete()
+            Leaderboard.objects.all().delete()
+            Team.objects.all().delete()
+            Workout.objects.all().delete()
+            
+            self.stdout.write('Creating teams...')
             marvel = Team.objects.create(name='Marvel')
             dc = Team.objects.create(name='DC')
-            self.stdout.write(f"Created teams: {marvel.name} (id={marvel.pk}), {dc.name} (id={dc.pk})")
+            self.stdout.write(f"Created teams: {marvel.name}, {dc.name}")
 
-            # Create users
+            self.stdout.write('Creating users...')
             ironman = User.objects.create_user(username='ironman', email='ironman@marvel.com', password='password')
             cap = User.objects.create_user(username='captainamerica', email='cap@marvel.com', password='password')
             batman = User.objects.create_user(username='batman', email='batman@dc.com', password='password')
             superman = User.objects.create_user(username='superman', email='superman@dc.com', password='password')
-            self.stdout.write(f"Created users: {ironman.username} (id={ironman.pk}), {cap.username} (id={cap.pk}), {batman.username} (id={batman.pk}), {superman.username} (id={superman.pk})")
+            self.stdout.write(f"Created users: {ironman.username}, {cap.username}, {batman.username}, {superman.username}")
 
-            # Create activities (ForeignKey to User)
-            a1 = Activity.objects.create(user=ironman, activity_type='Running', duration=30)
-            a2 = Activity.objects.create(user=batman, activity_type='Cycling', duration=45)
-            self.stdout.write(f"Created activities: {a1.activity_type} for {a1.user.username} (id={a1.pk}), {a2.activity_type} for {a2.user.username} (id={a2.pk})")
+            self.stdout.write('Creating activities...')
+            a1 = Activity.objects.create(user_id=str(ironman.id), user_name=ironman.username, activity_type='Running', duration=30)
+            a2 = Activity.objects.create(user_id=str(batman.id), user_name=batman.username, activity_type='Cycling', duration=45)
+            a3 = Activity.objects.create(user_id=str(cap.id), user_name=cap.username, activity_type='Swimming', duration=60)
+            a4 = Activity.objects.create(user_id=str(superman.id), user_name=superman.username, activity_type='Weightlifting', duration=90)
+            self.stdout.write(f"Created 4 activities")
 
-            # Create leaderboard (ForeignKey to User)
-            l1 = Leaderboard.objects.create(user=ironman, points=100)
-            l2 = Leaderboard.objects.create(user=batman, points=120)
-            self.stdout.write(f"Created leaderboard entries: {l1.user.username} ({l1.points} pts, id={l1.pk}), {l2.user.username} ({l2.points} pts, id={l2.pk})")
+            self.stdout.write('Creating leaderboard entries...')
+            l1 = Leaderboard.objects.create(user_id=str(ironman.id), user_name=ironman.username, points=100)
+            l2 = Leaderboard.objects.create(user_id=str(batman.id), user_name=batman.username, points=120)
+            l3 = Leaderboard.objects.create(user_id=str(superman.id), user_name=superman.username, points=150)
+            l4 = Leaderboard.objects.create(user_id=str(cap.id), user_name=cap.username, points=110)
+            self.stdout.write(f"Created 4 leaderboard entries")
 
-            # Create workouts
+            self.stdout.write('Creating workouts...')
             w1 = Workout.objects.create(name='Morning Cardio', description='A quick morning cardio session.')
             w2 = Workout.objects.create(name='Strength Training', description='Full body strength workout.')
-            self.stdout.write(f"Created workouts: {w1.name} (id={w1.pk}), {w2.name} (id={w2.pk})")
+            w3 = Workout.objects.create(name='Pushups', description='Do 20 pushups')
+            w4 = Workout.objects.create(name='Situps', description='Do 30 situps')
+            self.stdout.write(f"Created 4 workouts")
 
             self.stdout.write(self.style.SUCCESS('Database populated with sample data.'))
         except Exception as e:
@@ -50,10 +57,4 @@ class Command(BaseCommand):
             tb = traceback.format_exc()
             self.stdout.write(self.style.ERROR(f'Error during population: {e}'))
             self.stdout.write(self.style.ERROR(tb))
-            self.stdout.write(self.style.ERROR(f'Error populating database: {e}'))
 
-        # Create workouts
-        Workout.objects.create(name='Pushups', description='Do 20 pushups')
-        Workout.objects.create(name='Situps', description='Do 30 situps')
-
-        self.stdout.write(self.style.SUCCESS('octofit_db populated with test data'))

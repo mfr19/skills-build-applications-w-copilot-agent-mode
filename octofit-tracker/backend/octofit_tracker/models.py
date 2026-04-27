@@ -1,5 +1,6 @@
 from djongo import models
 from django.contrib.auth.models import AbstractUser
+from bson import ObjectId
 
 class User(AbstractUser):
     email = models.EmailField(unique=True)
@@ -11,14 +12,16 @@ class Team(models.Model):
         verbose_name_plural = 'Teams'
 
 class Activity(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    user_id = models.CharField(max_length=100, default='')
+    user_name = models.CharField(max_length=100, default='')
     activity_type = models.CharField(max_length=100)
     duration = models.IntegerField()
     class Meta:
         verbose_name_plural = 'Activities'
 
 class Leaderboard(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    user_id = models.CharField(max_length=100, default='')
+    user_name = models.CharField(max_length=100, default='')
     points = models.IntegerField()
     class Meta:
         verbose_name_plural = 'Leaderboard'

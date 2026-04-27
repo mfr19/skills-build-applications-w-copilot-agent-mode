@@ -7,7 +7,7 @@ const Activities = () => {
   const loadData = () => {
     const codespace = process.env.REACT_APP_CODESPACE_NAME;
     const endpoint = codespace
-      ? `https://${codespace}-8000.app.github.dev/api/activities/`
+      ? `https://mfr19-skills-build-applications-w-copilot-agent-mode-8000.app.github.dev/api/activities/`
       : 'http://localhost:8000/api/activities/';
 
     console.log('REST API endpoint (Activities):', endpoint);

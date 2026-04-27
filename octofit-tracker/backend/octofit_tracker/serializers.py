@@ -14,12 +14,12 @@ class TeamSerializer(serializers.ModelSerializer):
 class ActivitySerializer(serializers.ModelSerializer):
     class Meta:
         model = Activity
-        fields = ['id', 'user', 'activity_type', 'duration']
+        fields = ['id', 'user_id', 'user_name', 'activity_type', 'duration']
 
 class LeaderboardSerializer(serializers.ModelSerializer):
     class Meta:
         model = Leaderboard
-        fields = ['id', 'user', 'points']
+        fields = ['id', 'user_id', 'user_name', 'points']
 
 class WorkoutSerializer(serializers.ModelSerializer):
     class Meta:
